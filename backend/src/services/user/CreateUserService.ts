@@ -2,7 +2,7 @@ import prismaClient from "../../prisma";
 import { hash } from 'bcryptjs';
 
 interface UserRequest {
-  name: string;
+  nome: string;
   email: string;
   senha: string;
   tipoLogin: string;
@@ -10,10 +10,21 @@ interface UserRequest {
   dataNasc: string;
   cpf: string;
   tipo: string;
+  cep: string,
+  logradouro: string,
+  numero: string,
+  complemento: string,
+  bairro: string,
+  cidade: string,
+  uf: string,
+  telefones: {
+    numero: string;
+    tipo: string;
+  }[]
 }
 
 class CreateUserService {
-  async execute({ name, email, senha, tipoLogin, genero, dataNasc, cpf, tipo }: UserRequest) {
+  async execute({ nome, email, senha, tipoLogin, genero, dataNasc, cpf, tipo, cep, logradouro, numero, complemento, bairro, cidade, uf, telefones }: UserRequest) {
 
     // Verificar se email foi enviado
     if (!email) {
@@ -40,7 +51,7 @@ class CreateUserService {
     // Criar o registro na tabela Pessoa e Login
     const user = await prismaClient.pessoa.create({
       data: {
-        nome: name,
+        nome: nome,
         email: email,
         genero: genero,
         dataNasc: new Date(dataNasc),
@@ -51,18 +62,67 @@ class CreateUserService {
             senha: passwordHash,
             tipoLogin: tipoLogin,
           }
+        },
+        enderecos: {
+          create: {
+            cep: cep,
+            logradouro: logradouro,
+            numero: numero,
+            complemento: complemento,
+            bairro: bairro,
+            cidade: cidade,
+            uf: uf,
+          }
+        },
+        telefones: {
+          create: telefones.map(telefone => ({
+            Telefone: {
+              create: {
+                numero: telefone.numero,
+                tipo: telefone.tipo
+              }
+            }
+          }))
         }
       },
       select: {
         id: true,
         nome: true,
         email: true,
+        genero: true,
+        dataNasc: true,
+        cpf: true,
+        tipo: true,
         logins: {
           select: {
             id: true,
             tipoLogin: true,
           }
-        }
+        },
+        enderecos: {
+          select: {
+            id: true,
+            cep: true,
+            logradouro: true,
+            numero: true,
+            complemento: true,
+            bairro: true,
+            cidade: true,
+            uf: true,
+          }
+        },
+        telefones: {
+          select: {
+            Telefone: {
+              select: {
+                numero: true,
+                tipo: true,
+              }
+            }
+          }
+        },
+        dataCreate: true,
+        dataUpdate: true
       }
     });
 

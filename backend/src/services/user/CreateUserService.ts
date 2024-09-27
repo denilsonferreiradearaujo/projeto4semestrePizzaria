@@ -32,9 +32,9 @@ class CreateUserService {
     }
 
     // Verificar se o CPF foi enviado
-    if (!cpf) {
-      throw new Error('Informe um CPF.');
-    }
+    // if (!cpf) {
+    //   throw new Error('Informe um CPF.');
+    // }
 
     // Verificar se esse email já existe no cadastro
     const userAlreadyExists = await prismaClient.pessoa.findFirst({

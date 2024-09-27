@@ -87,7 +87,7 @@ CREATE TABLE `Pedido` (
 -- CreateTable
 CREATE TABLE `Categoria` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
+    `nome` VARCHAR(100) NOT NULL,
     `data_create` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `data_update` DATETIME(3) NULL,
 

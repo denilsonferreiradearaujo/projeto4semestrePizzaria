@@ -97,7 +97,7 @@ model Pedido {
 
 model Categoria {
   id          Int          @id @default(autoincrement())
-  name        String       @db.VarChar(100)
+  nome        String       @db.VarChar(100)
   dataCreate  DateTime     @default(now()) @map("data_create")
   dataUpdate  DateTime?    @map("data_update")
   produtos    Produto[]

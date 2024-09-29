@@ -154,6 +154,18 @@ CREATE TABLE `Valor` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `password_reset_tokens` (
+    `id` VARCHAR(191) NOT NULL,
+    `pessoaId` INTEGER NOT NULL,
+    `token` VARCHAR(191) NOT NULL,
+    `expiresAt` DATETIME(3) NOT NULL,
+    `created_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Endereco` ADD CONSTRAINT `Endereco_pessoaId_fkey` FOREIGN KEY (`pessoaId`) REFERENCES `Pessoa`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
@@ -189,3 +201,6 @@ ALTER TABLE `Tamanho` ADD CONSTRAINT `Tamanho_produtoId_fkey` FOREIGN KEY (`prod
 
 -- AddForeignKey
 ALTER TABLE `Valor` ADD CONSTRAINT `Valor_produtoId_fkey` FOREIGN KEY (`produtoId`) REFERENCES `Produto`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `password_reset_tokens` ADD CONSTRAINT `password_reset_tokens_pessoaId_fkey` FOREIGN KEY (`pessoaId`) REFERENCES `Pessoa`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

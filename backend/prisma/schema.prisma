@@ -4,7 +4,7 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-// Criar uma migration: npm ou yarn prisma migrate dev
+// Criar uma migration: yarn ou npx prisma migrate dev
 
 generator client {
   provider = "prisma-client-js"
@@ -30,6 +30,7 @@ model Pessoa {
   logins      Login[]
   pedidos     Pedido[]
   telefones   TelefonePessoa[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Endereco {
@@ -156,4 +157,17 @@ model Valor {
   dataCreate DateTime   @default(now()) @map("data_create")
   dataUpdate DateTime?  @map("data_update")
   Produto    Produto    @relation(fields: [produtoId], references: [id], onDelete: NoAction)
+}
+
+model PasswordResetToken {
+  id String @id @default(uuid())
+  pessoaId Int
+  token String
+  expiresAt DateTime
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  pessoa Pessoa @relation(fields: [pessoaId], references: [id])
+
+  @@map("password_reset_tokens")
 }

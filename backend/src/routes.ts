@@ -5,18 +5,27 @@ import { DetailUserController } from "./controllers/user/DetailUserController";
 import { DetailAllUserController } from "./controllers/user/DetailAllUserController";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
+import { ForgotPasswordController } from './controllers/user/ForgotPasswordController';
+import { ResetPasswordUserController } from './controllers/user/ResetPasswordUserController';
+
+
+// MiddleWares
+import { isAuthenticated } from "./middlewares/isAuthenticated";
+import { isAuthorized } from "./middlewares/isAuthorized"; // isAuthorized(['funcionario', 'cliente' ])
 
 const router = Router();
 
 // Rotas User
 router.post('/users', new CreateUserController().handle)
 router.post('/login', new AuthUserController().handle)
-router.get('/users/:pessoa_id', new DetailUserController().handle)
-router.get('/users', new DetailAllUserController().handle)
+router.get('/users/:pessoa_id', isAuthenticated, new DetailUserController().handle)
+router.get('/users', isAuthenticated,  new DetailAllUserController().handle)
+router.post('/forgotPassword', new ForgotPasswordController().handle)
+router.post('/resetPassword/:token', new ResetPasswordUserController().handle)
 
 // Rotas categoria
-router.post('/category', new CreateCategoryController().handle)
-router.get('/listCategory', new ListCategoryController().handle)
+router.post('/category', isAuthenticated, isAuthorized(['funcionario']) ,new CreateCategoryController().handle)
+router.get('/listCategory',  isAuthenticated, isAuthorized(['funcionario']) ,new ListCategoryController().handle)
 
 export {router};
 

@@ -1,12 +1,15 @@
 import { Router } from "express";
+
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailUserController } from "./controllers/user/DetailUserController";
 import { DetailAllUserController } from "./controllers/user/DetailAllUserController";
-import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
-import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { ForgotPasswordController } from './controllers/user/ForgotPasswordController';
 import { ResetPasswordUserController } from './controllers/user/ResetPasswordUserController';
+
+import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
+import { ListCategoryController } from "./controllers/category/ListCategoryController";
+import { UpdateCategoryController } from "./controllers/category/UpdateCategoryController";
 
 
 // MiddleWares
@@ -26,6 +29,9 @@ router.post('/resetPassword/:token', new ResetPasswordUserController().handle)
 // Rotas categoria
 router.post('/category', isAuthenticated, isAuthorized(['funcionario']) ,new CreateCategoryController().handle)
 router.get('/listCategory',  isAuthenticated, isAuthorized(['funcionario']) ,new ListCategoryController().handle)
+router.post('/updateCategory/:id',  isAuthenticated, isAuthorized(['funcionario']) ,new UpdateCategoryController().handle)
+
+
 
 export {router};
 

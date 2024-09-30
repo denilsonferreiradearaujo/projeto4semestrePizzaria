@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { CreateProdutoService } from "../../services/product/CreateProductService";
+import { CreateProductService } from "../../services/product/CreateProductService";
 
-class CreateProdutoController {
+class CreateProductController {
     async handle(req: Request, res: Response) {
       const { nome, categoriaId, tamanhos, valores } = req.body;
   
-      const createProdutoService = new CreateProdutoService();
+      const createProductService = new CreateProductService();
   
-      const produto = await createProdutoService.execute({
+      const produto = await createProductService.execute({
         nome,
         categoriaId,
         tamanhos,
@@ -18,4 +18,4 @@ class CreateProdutoController {
     }
   }
   
-  export { CreateProdutoController };
+  export { CreateProductController };

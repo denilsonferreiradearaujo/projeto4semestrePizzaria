@@ -11,7 +11,7 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { UpdateCategoryController } from "./controllers/category/UpdateCategoryController";
 
-import { CreateProdutoController } from "./controllers/product/CreateProductController";
+import { CreateProductController } from "./controllers/product/CreateProductController";
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
@@ -30,10 +30,10 @@ router.post('/resetPassword/:token', new ResetPasswordUserController().handle)
 // Rotas categoria
 router.post('/category', isAuthenticated, isAuthorized(['funcionario']) ,new CreateCategoryController().handle)
 router.get('/listCategory',  isAuthenticated, isAuthorized(['funcionario']) ,new ListCategoryController().handle)
-router.post('/updateCategory/:id',  isAuthenticated, isAuthorized(['funcionario']) ,new UpdateCategoryController().handle)
+router.post('/updateCategory/:id', isAuthenticated, isAuthorized(['funcionario']) ,new UpdateCategoryController().handle)
 
 // Rotas produto
-router.post('/createProduct', new CreateProdutoController().handle)
+router.post('/createProduct', new CreateProductController().handle)
 
 
 export {router};

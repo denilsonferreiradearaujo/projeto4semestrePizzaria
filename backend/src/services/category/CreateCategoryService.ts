@@ -1,11 +1,11 @@
 import prismaClient from "../../prisma";
 
-interface categoriaRequest {
+interface categoryRequest {
   nome: string;
 }
 
-class CreateCategoriaService {
-  async execute({ nome }: categoriaRequest) {
+class CreateCategoryService {
+  async execute({ nome }: categoryRequest) {
     // VERIFICA SE UM NOME FOI ENVIADO OU PREENCHIDO
     if (!nome) {
       throw new Error("O nome da categoria não foi preenchido");
@@ -38,4 +38,4 @@ class CreateCategoriaService {
   }
 }
 
-export { CreateCategoriaService };
+export { CreateCategoryService };

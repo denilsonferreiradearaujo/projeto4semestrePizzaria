@@ -12,6 +12,8 @@ import { ListCategoryController } from "./controllers/category/ListCategoryContr
 import { UpdateCategoryController } from "./controllers/category/UpdateCategoryController";
 
 import { CreateProductController } from "./controllers/product/CreateProductController";
+import { ListProductController } from "./controllers/product/listProductController";
+import { UpdateProductController } from "./controllers/product/UpdateProductController";
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
@@ -33,7 +35,9 @@ router.get('/listCategory',  isAuthenticated, isAuthorized(['funcionario']) ,new
 router.post('/updateCategory/:id', isAuthenticated, isAuthorized(['funcionario']) ,new UpdateCategoryController().handle)
 
 // Rotas produto
-router.post('/createProduct', new CreateProductController().handle)
+router.post('/createProduct', isAuthenticated, isAuthorized(['funcionario']), new CreateProductController().handle)
+router.get('/listProduct', isAuthenticated, isAuthorized(['funcionario']), new ListProductController().handle)
+router.get('/updateProduct', isAuthenticated, isAuthorized(['funcionario']), new UpdateProductController().handle)
 
 
 export {router};

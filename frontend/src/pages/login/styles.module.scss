@@ -1,0 +1,57 @@
+.containerCenter {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--gray-900);
+}
+
+.logo {
+    margin-bottom: -3rem; /* Ajuste conforme necessário */
+  } 
+
+.loginTitle {
+    color: black; /* Definindo a cor preta */
+    margin-bottom: 2rem; /* Espaço abaixo do título */
+    font-size: 2rem; /* Ajuste o tamanho conforme necessário */
+    text-align: center; /* Centraliza o texto, se desejado */
+  }
+
+.login {
+    margin-top: 2rem;
+    width: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+
+    h1 {
+        color: var(--white);
+        padding-bottom: 1rem;
+    }
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    form button {
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+.text {
+    margin-top: 1rem;
+    color: var(--white);
+    cursor: pointer;
+}
+
+@media (max-widht: 620px) {
+    .login {
+        width: 90%;
+    }
+}

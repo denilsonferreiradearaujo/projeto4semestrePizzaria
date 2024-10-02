@@ -1,0 +1,86 @@
+.gridForm {
+  display: grid;
+  grid-template-columns: repeat(5, 10fr); /* Três colunas para compactar os inputs */
+  gap: 70px; /* Espaçamento entre os inputs */
+  align-items: start;
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: var(--gray-500);
+  }
+
+  input {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+  }
+}
+
+.loginTitle {
+  text-align: center;  /* Centraliza o texto horizontalmente */
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  background-color: var(--gray-900);
+  border: 1px solid #dedddd;
+  height: 100px;
+  align-items: center;
+  padding: 50px 40px;
+}
+
+.login {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  
+  h1 {
+    color: var(--white);
+    padding-bottom: 1rem;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  form button {
+    height: 40px;
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+}
+
+.logoImg {
+  width: 170px;
+}
+
+.voltarHome {
+  margin-right: 30%;
+}
+
+@media (max-width: 620px) {
+  .gridForm {
+    grid-template-columns: 1fr; /* Em telas menores, tudo em uma coluna */
+  }
+  .login {
+    width: 90%;
+  }
+}

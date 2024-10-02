@@ -15,6 +15,9 @@ import { CreateProductController } from "./controllers/product/CreateProductCont
 import { ListProductController } from "./controllers/product/ListProductController";
 import { UpdateProductController } from "./controllers/product/UpdateProductController";
 
+import { CreateTaxaEntregaController } from "./controllers/taxaEntrega/CreateTaxaEntregaController";
+import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllTaxaEntregaController"; 
+
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { isAuthorized } from "./middlewares/isAuthorized"; // isAuthorized(['funcionario', 'cliente' ])
@@ -39,7 +42,7 @@ router.post('/createProduct', new CreateProductController().handle)
 router.get('/listProduct', new ListProductController().handle)
 router.get('/updateProduct', new UpdateProductController().handle)
 
+router.post('/addTaxaEntrega', new CreateTaxaEntregaController().handle);
+router.get('/taxasEntrega', new ListAllTaxaEntregaController().handle);
 
-export {router};
-
-
+export { router };

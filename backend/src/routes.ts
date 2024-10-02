@@ -16,12 +16,12 @@ import { ListProductController } from "./controllers/product/ListProductControll
 import { UpdateProductController } from "./controllers/product/UpdateProductController";
 
 import { CreateTaxaEntregaController } from "./controllers/taxaEntrega/CreateTaxaEntregaController";
-import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllTaxaEntregaController"; 
+import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllTaxaEntregaController"; // Importa o controlador para listar todas as taxas de entrega
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { isAuthorized } from "./middlewares/isAuthorized"; // isAuthorized(['funcionario', 'cliente' ])
-
+import { UpdateTaxaEntregaController } from "./controllers/taxaEntrega/UpdateTaxaEntregaController";
 const router = Router();
 
 // Rotas User
@@ -38,11 +38,12 @@ router.get('/listCategory' ,new ListCategoryController().handle)
 router.post('/updateCategory/:id' ,new UpdateCategoryController().handle)
 
 // Rotas produto
-router.post('/createProduct', new CreateProductController().handle)
-router.get('/listProduct', new ListProductController().handle)
-router.get('/updateProduct', new UpdateProductController().handle)
+router.post('/createProduct', new CreateProductController().handle);
+router.get('/listProduct', new ListProductController().handle);
+router.get('/updateProduct', new UpdateProductController().handle);
 
+// Rotas taxa de entrega
 router.post('/addTaxaEntrega', new CreateTaxaEntregaController().handle);
 router.get('/taxasEntrega', new ListAllTaxaEntregaController().handle);
-
+router.post('/updateTaxaEntrega/:id', new UpdateTaxaEntregaController().handle);
 export { router };

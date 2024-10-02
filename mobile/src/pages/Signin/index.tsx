@@ -17,10 +17,9 @@ export default function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   useEffect(() => {
-    // Limpa a mensagem de erro ao alterar os campos de email ou senha
-    clearError();
+    return () => clearError();  // Limpa a mensagem de erro ao alterar os campos de email ou senha
   }, [email, password]);
 
   async function handleLogin() {
@@ -37,30 +36,32 @@ export default function SignIn() {
       //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       return password.length >= minLength; // passwordRegex.test(password)
     }
+    try {
+      if (email === "" || password === "") {
+        // Verificação se email ou senha estão vazios
+        Alert.alert('Preencha os campos email e senha.')
+        return;
+      }
 
-    if (email === "" || password === "") {
-      // Verificação se email ou senha estão vazios
-      Alert.alert('Preencha os campos email e senha.')
-      return;
-      
+      if (!isValidEmail(email)) {
+        // Verificação de formato de email
+        Alert.alert("Erro", "Formato de email inválido!");
+        return;
+      }
+
+      if (!isValidPassword(password)) {
+        // Verificação de força da senha
+        Alert.alert(
+          "Erro",
+          "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
+        );
+        return;
+      }
+      await signIn({ email, password });
+    } catch (error) {
+      console.log("Erro ao acessar!", error);
     }
 
-    if (!isValidEmail(email)) {
-      // Verificação de formato de email
-      Alert.alert("Erro", "Formato de email inválido!");
-      return;
-    }
-
-    if (!isValidPassword(password)) {
-      // Verificação de força da senha
-      Alert.alert(
-        "Erro",
-        "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
-      );
-      return;
-    }
-
-    await signIn({ email, password });
   }
 
   return (
@@ -86,15 +87,15 @@ export default function SignIn() {
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           {loadingAuth ? (
-            <ActivityIndicator size={25} color="#fff"/>
-          ): (
+            <ActivityIndicator size={25} color="#fff" />
+          ) : (
             <Text style={styles.buttonText}>Acessar</Text>
           )}
-      
+
         </TouchableOpacity>
 
         {errorMessage ? (
-          <Text style={styles.errorMessage}>{errorMessage}</Text> // Exibe a mensagem de erro
+          <Text style={styles.errorMessage}>{errorMessage && Alert.Alert("Error",errorMessage)}</Text> // Exibe a mensagem de erro
         ) : null}
       </View>
     </View>
@@ -106,10 +107,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#1d1d2e",
+    backgroundColor: "#ffffff",
   },
   logo: {
     marginBottom: 18,
+    width: 300,
+    height: 80,
   },
 
   inputContainer: {
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderRadius: 4,
     paddingHorizontal: 8,
-    color: "#fff",
+    color: "#FFC107",
     borderWidth: 0.3,
     borderColor: '#8a8a8a',
   },
@@ -135,8 +138,8 @@ const styles = StyleSheet.create({
   button: {
     width: "95%",
     height: 40,
-    backgroundColor: "#3fffa3",
-    borderRadius: 4,
+    backgroundColor: "#B22222",
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -148,9 +151,9 @@ const styles = StyleSheet.create({
   },
 
   errorMessage: {
-    fontSize: 13,
+    fontSize: 15,
     // fontWeight: "bold",
-    color: "#fff",
+    color: "#b22222",
     paddingTop: 8,
   }
 });

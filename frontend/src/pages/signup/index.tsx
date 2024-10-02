@@ -1,7 +1,7 @@
 import { useContext, FormEvent, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import logoImg from '../../../public/logo.svg';
+import logoImg from '../../../public/logo.png';
 
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";

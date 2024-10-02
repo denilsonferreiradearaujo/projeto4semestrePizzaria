@@ -16,12 +16,13 @@ import { ListProductController } from "./controllers/product/ListProductControll
 import { UpdateProductController } from "./controllers/product/UpdateProductController";
 
 import { CreateTaxaEntregaController } from "./controllers/taxaEntrega/CreateTaxaEntregaController";
-import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllTaxaEntregaController"; // Importa o controlador para listar todas as taxas de entrega
+import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllTaxaEntregaController";
+import { UpdateTaxaEntregaController } from "./controllers/taxaEntrega/UpdateTaxaEntregaController";
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { isAuthorized } from "./middlewares/isAuthorized"; // isAuthorized(['funcionario', 'cliente' ])
-import { UpdateTaxaEntregaController } from "./controllers/taxaEntrega/UpdateTaxaEntregaController";
+
 const router = Router();
 
 // Rotas User

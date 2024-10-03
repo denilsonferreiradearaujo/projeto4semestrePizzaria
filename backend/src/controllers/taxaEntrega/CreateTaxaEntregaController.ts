@@ -8,19 +8,33 @@ class CreateTaxaEntregaController {
     const createTaxaEntregaService = new CreateTaxaEntregaService();
 
     try {
+      // Converte o valor para número antes de chamar o serviço
+      const valorNumerico = parseFloat(valor);
+
       // Chama o serviço para criar uma nova taxa de entrega
       const novaTaxaEntrega = await createTaxaEntregaService.execute({
         distanciaMin,
         distanciaMax,
-        valor,
+        valor: valorNumerico,
       });
 
-      // Retorna o status 201 com a taxa de entrega criada
-      return res.status(201).json(novaTaxaEntrega);
-    } catch (error) {
-      // Retorna erro 400 com a mensagem de erro
-      return res.status(400).json({
-        message: error.message || 'Erro inesperado ao criar a taxa de entrega.',
+      // Garantimos que `valor` será tratado como número, caso o Prisma retorne como string
+      const valorFormatado = Number(novaTaxaEntrega.valor).toFixed(2);
+
+      // Retorna a nova taxa de entrega com o valor formatado
+      return res.status(201).json({
+        ...novaTaxaEntrega,
+        valor: valorFormatado,
+      });
+    } catch (error: any) {
+      // Erros de validação (mensagens mais específicas)
+      if (error.message.includes('distância') || error.message.includes('valor')) {
+        return res.status(400).json({ message: error.message });
+      }
+
+      // Erro inesperado
+      return res.status(500).json({
+        message: 'Erro interno ao criar a taxa de entrega.',
       });
     }
   }

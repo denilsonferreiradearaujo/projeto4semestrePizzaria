@@ -1,5 +1,6 @@
 // src/services/product/UpdateProductService.ts
 import prismaClient from "../../prisma";
+import { Decimal } from "decimal.js"; // Importa a biblioteca Decimal.js
 
 interface TamanhoRequest {
   id?: number; // O ID do tamanho é opcional para identificar os existentes e atualizar.
@@ -49,16 +50,18 @@ class UpdateProductService {
   // Atualizar valores do produto
   private async atualizarValores(produtoId: number, valores: ValorRequest[]) {
     for (const valor of valores) {
+      const precoDecimal = new Decimal(valor.preco).toDecimalPlaces(2); // Converte para Decimal e formata
+
       if (valor.id) {
         // Se um ID for fornecido, atualizar o valor existente
         await prismaClient.valor.update({
           where: { id: valor.id },
-          data: { preco: valor.preco, tamanho: valor.tamanho, status: valor.status },
+          data: { preco: precoDecimal, tamanho: valor.tamanho, status: valor.status },
         });
       } else {
         // Se não tiver ID, criar um novo valor
         await prismaClient.valor.create({
-          data: { produtoId, preco: valor.preco, tamanho: valor.tamanho, status: valor.status },
+          data: { produtoId, preco: precoDecimal, tamanho: valor.tamanho, status: valor.status },
         });
       }
     }

@@ -6,6 +6,11 @@ interface TaxaEntregaRequest {
   valor: number;
 }
 
+// Função auxiliar para verificar sobreposição de faixas de distância
+function isOverlapping(existingMin: number, existingMax: number, newMin: number, newMax: number): boolean {
+  return existingMin < newMax && existingMax > newMin;
+}
+
 class CreateTaxaEntregaService {
   async execute({ distanciaMin, distanciaMax, valor }: TaxaEntregaRequest) {
     // Validações básicas
@@ -17,9 +22,16 @@ class CreateTaxaEntregaService {
       throw new Error('O valor da distância máxima deve ser um número positivo e maior que a distância mínima.');
     }
 
-    if (!valor) {
-      throw new Error('Informe um valor corretamente.');
+    if (!valor || valor <= 0) {
+      throw new Error('O valor da taxa de entrega deve ser um número positivo.');
     }
+
+    // Normalização das distâncias (arredondar para 2 casas decimais)
+    distanciaMin = Math.round(distanciaMin * 100) / 100;
+    distanciaMax = Math.round(distanciaMax * 100) / 100;
+
+    // Formata o valor para 2 casas decimais
+    const valorFormatado = parseFloat(valor.toFixed(2));
 
     // Verifica se há sobreposição com outras faixas
     const existingTaxa = await prismaClient.taxaEntrega.findFirst({
@@ -31,9 +43,9 @@ class CreateTaxaEntregaService {
       },
     });
 
-    if (existingTaxa) {
+    if (existingTaxa && isOverlapping(existingTaxa.distanciaMin, existingTaxa.distanciaMax, distanciaMin, distanciaMax)) {
       throw new Error(
-        `Já existe uma taxa de entrega cadastrada para essa faixa de distância. A faixa de distância ${existingTaxa.distanciaMin}-${existingTaxa.distanciaMax} já está cadastrada.`
+        `Já existe uma taxa de entrega cadastrada para essa faixa de distância (${existingTaxa.distanciaMin}-${existingTaxa.distanciaMax}).`
       );
     }
 
@@ -42,11 +54,14 @@ class CreateTaxaEntregaService {
       data: {
         distanciaMin,
         distanciaMax,
-        valor,
+        valor: valorFormatado, // Salva o valor formatado com 2 casas decimais
       },
     });
 
-    return createdTaxa;
+    return {
+      ...createdTaxa,
+      valor: createdTaxa.valor.toFixed(2), // Retorna o valor formatado com 2 casas decimais
+    };
   }
 }
 

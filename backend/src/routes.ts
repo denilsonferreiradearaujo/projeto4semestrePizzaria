@@ -20,6 +20,8 @@ import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllT
 import { UpdateTaxaEntregaController } from "./controllers/taxaEntrega/UpdateTaxaEntregaController";
 
 import { CreatePedidoController } from "./controllers/pedido/CreatePedidoController";
+import { ListAllPedidosController } from "./controllers/pedido/ListAllPedidosController";
+import { UpdatePedidoStatusController } from "./controllers/pedido/UpdatePedidoStatusController";
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
@@ -52,5 +54,8 @@ router.post('/updateTaxaEntrega/:id', new UpdateTaxaEntregaController().handle);
 
 // Rotas dos pedidos
 router.post('/createPedido', new CreatePedidoController().handle)
+router.get('/listPedidos', new ListAllPedidosController().handle);
+router.put("/pedido/status/:id", new UpdatePedidoStatusController().handle);
+
 
 export { router };

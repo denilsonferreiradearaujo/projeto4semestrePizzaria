@@ -38,7 +38,7 @@ class CreateProductService {
         return await prismaClient.valor.createMany({
             data: valores.map((v) => ({
                 produtoId,
-                preco: v.preco,
+                preco: parseFloat(v.preco.toFixed(2)), // Garante que o preço seja armazenado com duas casas decimais
                 tamanho: v.tamanho,
                 status: v.status,
             })),

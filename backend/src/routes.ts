@@ -19,6 +19,8 @@ import { CreateTaxaEntregaController } from "./controllers/taxaEntrega/CreateTax
 import { ListAllTaxaEntregaController } from "./controllers/taxaEntrega/ListAllTaxaEntregaController";
 import { UpdateTaxaEntregaController } from "./controllers/taxaEntrega/UpdateTaxaEntregaController";
 
+import { CreatePedidoController } from "./controllers/pedido/CreatePedidoController";
+
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { isAuthorized } from "./middlewares/isAuthorized"; // isAuthorized(['funcionario', 'cliente' ])
@@ -47,4 +49,8 @@ router.get('/updateProduct', new UpdateProductController().handle);
 router.post('/addTaxaEntrega', new CreateTaxaEntregaController().handle);
 router.get('/taxasEntrega', new ListAllTaxaEntregaController().handle);
 router.post('/updateTaxaEntrega/:id', new UpdateTaxaEntregaController().handle);
+
+// Rotas dos pedidos
+router.post('/createPedido', new CreatePedidoController().handle)
+
 export { router };

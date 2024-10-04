@@ -34,9 +34,6 @@ class UpdateTaxaEntregaService {
       throw new Error("O valor da taxa de entrega deve ser positivo.");
     }
 
-    // Formatar o valor para ter sempre 2 casas decimais
-    const valorFormatado = parseFloat(valor.toFixed(2));
-
     // Verifica se a Taxa de Entrega com o ID fornecido existe
     const taxaEntregaExists = await prismaClient.taxaEntrega.findUnique({
       where: { id: idNumber }
@@ -67,7 +64,7 @@ class UpdateTaxaEntregaService {
       data: {
         distanciaMin,
         distanciaMax,
-        valor: valorFormatado, // Armazena o valor formatado
+        valor,
         dataUpdate: new Date(),
       },
       select: {
@@ -80,11 +77,8 @@ class UpdateTaxaEntregaService {
       },
     });
 
-    // Retorna a taxa de entrega atualizada com o valor formatado
-    return {
-      ...taxaEntregaAtualizada,
-      valor: taxaEntregaAtualizada.valor.toFixed(2), // Formata o valor para exibição com 2 casas decimais
-    };
+    // Retorna a taxa de entrega atualizada
+    return taxaEntregaAtualizada;
   }
 }
 

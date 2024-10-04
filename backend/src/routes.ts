@@ -45,7 +45,7 @@ router.post('/updateCategory/:id' ,new UpdateCategoryController().handle)
 // Rotas produto
 router.post('/createProduct', new CreateProductController().handle);
 router.get('/listProduct', new ListProductController().handle);
-router.get('/updateProduct', new UpdateProductController().handle);
+router.post('/updateProduct/:id', new UpdateProductController().handle);
 
 // Rotas taxa de entrega
 router.post('/addTaxaEntrega', new CreateTaxaEntregaController().handle);

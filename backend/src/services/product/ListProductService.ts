@@ -1,5 +1,3 @@
-// services/product/ListProductService.ts
-
 import prismaClient from "../../prisma";
 
 class ListProductService {
@@ -17,7 +15,16 @@ class ListProductService {
       },
     });
 
-    return produtos;
+    // Formata os valores para duas casas decimais
+    const produtosFormatados = produtos.map(produto => ({
+      ...produto,
+      valores: produto.valores.map(valor => ({
+        ...valor,
+        preco: valor.preco.toFixed(2), // Formata o preço para duas casas decimais
+      })),
+    }));
+
+    return produtosFormatados;
   }
 }
 

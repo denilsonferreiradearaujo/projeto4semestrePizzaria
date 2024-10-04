@@ -13,7 +13,7 @@ interface ValorRequest {
 interface ProdutoRequest {
     nome: string;
     categoriaId: number;
-    tamanhos?: TamanhoRequest[];
+    tamanhos?: TamanhoRequest[]; // Tamanhos são opcionais
     valores?: ValorRequest[];
 }
 
@@ -25,20 +25,24 @@ class CreateProductService {
         return !!produto;
     }
 
-    private async criarTamanhos(produtoId: number, tamanhos: TamanhoRequest[]) {
-        return await prismaClient.tamanho.createMany({
-            data: tamanhos.map((t) => ({
-                produtoId,
-                tamanho: t.tamanho,
-            })),
-        });
+    private async criarTamanhos(produtoId: number, tamanhos: TamanhoRequest[] | null) {
+        if (tamanhos && tamanhos.length > 0) {
+            // Se tamanhos foram fornecidos, adicioná-los
+            return await prismaClient.tamanho.createMany({
+                data: tamanhos.map((t) => ({
+                    produtoId,
+                    tamanho: t.tamanho,
+                })),
+            });
+        }
+        return null; // Se não houver tamanhos, ignora
     }
 
     private async criarValores(produtoId: number, valores: ValorRequest[]) {
         return await prismaClient.valor.createMany({
             data: valores.map((v) => ({
                 produtoId,
-                preco: parseFloat(v.preco.toFixed(2)), // Garante que o preço seja armazenado com duas casas decimais
+                preco: v.preco, // O preço será inserido como está
                 tamanho: v.tamanho,
                 status: v.status,
             })),
@@ -65,9 +69,8 @@ class CreateProductService {
             select: { id: true, nome: true, categoriaId: true, dataCreate: true, dataUpdate: true },
         });
 
-        if (tamanhos && tamanhos.length > 0) {
-            await this.criarTamanhos(produto.id, tamanhos);
-        }
+        // Adiciona tamanhos apenas se o campo de tamanhos não for nulo
+        await this.criarTamanhos(produto.id, tamanhos);
 
         if (valores && valores.length > 0) {
             await this.criarValores(produto.id, valores);

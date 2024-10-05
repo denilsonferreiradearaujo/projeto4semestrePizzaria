@@ -56,6 +56,7 @@ export function AuthProvider({children}: AuthProviderProps){
             // Verificar se recebemos as informações
             if(Object.keys(hasUser).length > 0){
                 api.defaults.headers.common['Authorization'] = `Bearer ${hasUser.token}`
+                console.log("error de recebimento")
 
                 setUser ({
                     id: hasUser.id,
@@ -77,7 +78,7 @@ export function AuthProvider({children}: AuthProviderProps){
         setErrorMessage("");  // Limpa a mensagem de erro ao tentar novamente
 
         try{
-            const response = await api.post('/session', {
+            const response = await api.post('/login', {
                 email,
                 password
             })
@@ -107,8 +108,8 @@ export function AuthProvider({children}: AuthProviderProps){
             setErrorMessage("Falha no login. Verifique suas credenciais.");  // Define a mensagem de erro
             setLoadingAuth(false);
         }
-        // console.log(email)
-        // console.log(password)
+        console.log(email)
+        console.log(password)
     }
 
     async function signOut() {

@@ -19,7 +19,8 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    return () => clearError();  // Limpa a mensagem de erro ao alterar os campos de email ou senha
+    return () => clearError(); // Limpa a mensagem de erro ao alterar os campos de email ou senha
+    console.log("useEffect")
   }, [email, password]);
 
   async function handleLogin() {
@@ -27,6 +28,7 @@ export default function SignIn() {
     function isValidEmail(email: string) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
+      console.log("isValidEmail step")
     }
 
     // Função auxiliar para validar a força da senha
@@ -35,17 +37,22 @@ export default function SignIn() {
       // const passwordRegex =
       //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       return password.length >= minLength; // passwordRegex.test(password)
+      console.log("isValidPassword step")
+
     }
     try {
       if (email === "" || password === "") {
         // Verificação se email ou senha estão vazios
         Alert.alert('Preencha os campos email e senha.')
+        console.log("Preencha os campos email e senha.")
+
         return;
       }
 
       if (!isValidEmail(email)) {
         // Verificação de formato de email
         Alert.alert("Erro", "Formato de email inválido!");
+        console.log("Formato de email inválido!");
         return;
       }
 
@@ -95,7 +102,7 @@ export default function SignIn() {
         </TouchableOpacity>
 
         {errorMessage ? (
-          <Text style={styles.errorMessage}>{errorMessage && Alert.Alert("Error",errorMessage)}</Text> // Exibe a mensagem de erro
+          <Text style={styles.errorMessage}>{errorMessage && Alert.alert("Error",errorMessage)}</Text> // Exibe a mensagem de erro
         ) : null}
       </View>
     </View>

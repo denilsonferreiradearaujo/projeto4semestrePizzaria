@@ -1,7 +1,9 @@
 .gridForm {
   display: grid;
-  grid-template-columns: repeat(5, 10fr); /* Três colunas para compactar os inputs */
-  gap: 70px; /* Espaçamento entre os inputs */
+  grid-template-columns: repeat(5, 10fr);
+  /* Três colunas para compactar os inputs */
+  gap: 70px;
+  /* Espaçamento entre os inputs */
   align-items: start;
 
   div {
@@ -15,16 +17,22 @@
     color: var(--gray-500);
   }
 
-  input {
-    padding: 20px;
+  input,
+  select {
+    height: 56px;
+    padding: 0 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 0.95rem;
+    background-color: white;
+    appearance: none;
+    box-sizing: border-box;
   }
 }
 
 .loginTitle {
-  text-align: center;  /* Centraliza o texto horizontalmente */
+  text-align: center;
+  /* Centraliza o texto horizontalmente */
   margin-top: 2rem;
   font-size: 2rem;
   color: var(--white);
@@ -49,7 +57,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 2rem 1.5rem;
-  
+
   h1 {
     color: var(--white);
     padding-bottom: 1rem;
@@ -78,8 +86,10 @@
 
 @media (max-width: 620px) {
   .gridForm {
-    grid-template-columns: 1fr; /* Em telas menores, tudo em uma coluna */
+    grid-template-columns: 1fr;
+    /* Em telas menores, tudo em uma coluna */
   }
+
   .login {
     width: 90%;
   }

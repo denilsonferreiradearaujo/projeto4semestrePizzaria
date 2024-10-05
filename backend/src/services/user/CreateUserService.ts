@@ -126,6 +126,8 @@ class CreateUserService {
       }
     });
 
+    console.log(user)
+    
     return user;
   }
 }
